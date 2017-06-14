@@ -18,17 +18,22 @@ public class Drive extends Subsystem {
 	public Drive()
 	{
 		leftEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		rightEncoder = new Encoder(1, 2, false, Encoder.EncodingType.k4X);
+		rightEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
 		leftEncoder.setMaxPeriod(.1);
 		leftEncoder.setMinRate(10);
-		leftEncoder.setDistancePerPulse(10);
+		leftEncoder.setDistancePerPulse(6 * Math.PI / 360);
 		leftEncoder.setReverseDirection(true);
 		leftEncoder.setSamplesToAverage(7);
 		rightEncoder.setMaxPeriod(.1);
 		rightEncoder.setMinRate(10);
-		rightEncoder.setDistancePerPulse(10);
-		rightEncoder.setReverseDirection(true);
+		rightEncoder.setDistancePerPulse(6 * Math.PI / 250);
+		rightEncoder.setReverseDirection(false);
 		rightEncoder.setSamplesToAverage(7);
+	}
+	
+	public void drive(double x)
+	{
+		
 	}
 	
 	public void initDefaultCommand() {
