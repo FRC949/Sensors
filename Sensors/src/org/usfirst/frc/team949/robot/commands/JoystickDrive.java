@@ -1,5 +1,6 @@
 package org.usfirst.frc.team949.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team949.robot.Robot;
@@ -24,7 +25,7 @@ public class JoystickDrive extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		double x = Robot.oi.getX();
+		Joystick x = Robot.oi.getJoystick();
 		Robot.drive.drive(x);
 	}
 
