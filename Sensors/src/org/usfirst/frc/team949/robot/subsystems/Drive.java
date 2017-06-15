@@ -53,4 +53,10 @@ public class Drive extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 		setDefaultCommand(new JoystickDrive());
 	}
+
+	public void resetEncoder() {
+		// TODO Auto-generated method stub
+		leftEncoder.reset();
+		rightEncoder.reset();
+	}
 }

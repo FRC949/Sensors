@@ -27,6 +27,10 @@ public class JoystickDrive extends Command {
 	protected void execute() {
 		Joystick x = Robot.oi.getJoystick();
 		Robot.drive.drive(x);
+		if (x.getRawButton(1))
+		{
+			Robot.drive.resetEncoder();
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
