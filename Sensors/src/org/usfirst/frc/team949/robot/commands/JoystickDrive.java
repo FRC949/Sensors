@@ -7,10 +7,13 @@ import org.usfirst.frc.team949.robot.Robot;
 /**
  *
  */
-public class ExampleCommand extends Command {
-	public ExampleCommand() {
+public class JoystickDrive extends Command {
+	
+	private final double kNerf = 0.3;
+	
+	public JoystickDrive() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.exampleSubsystem);
+		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
@@ -21,6 +24,8 @@ public class ExampleCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+		double x = Robot.oi.getX();
+		Robot.drive.drive(x);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
