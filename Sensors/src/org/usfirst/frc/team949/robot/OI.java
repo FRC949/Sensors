@@ -18,9 +18,9 @@ public class OI {
 	Joystick stick = new Joystick(0);
 	// Button button = new JoystickButton(stick, buttonNumber);
 
-	public double getX()
+	public Joystick getJoystick()
 	{
-		return stick.getX();
+		return stick;
 	}
 	
 	// There are a few additional built in buttons you can use. Additionally,
