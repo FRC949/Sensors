@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println("Left: " + drive.leftEncoder.getDistance() + ", Right: " + drive.rightEncoder.getDistance());
+		System.out.println("Gyro: " + (int) (10 * drive.gyro.getAngle()) / 10.);
 	}
 
 	/**
