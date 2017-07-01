@@ -1,5 +1,11 @@
 package org.usfirst.frc.team949.robot.commands;
 
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
+
+import org.usfirst.frc.team949.robot.Robot;
+import org.usfirst.frc.team949.robot.subsystems.Drive;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,9 +15,7 @@ import org.usfirst.frc.team949.robot.Robot;
  *
  */
 public class JoystickDrive extends Command {
-	
-	private final double kNerf = 0.3;
-	
+
 	public JoystickDrive() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.drive);
@@ -22,14 +26,28 @@ public class JoystickDrive extends Command {
 	protected void initialize() {
 	}
 
+	private double d = 0;
+
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
 		Joystick x = Robot.oi.getJoystick();
 		Robot.drive.drive(x);
-		if (x.getRawButton(1))
-		{
+		if (x.getRawButton(1)) {
 			Robot.drive.resetEncoder();
+		}
+		if (x.getRawButton(2)) {
+			Robot.drive.calibrateGyro();
+		}
+		if (x.getRawButton(3)) {
+			Robot.drive.resetGyro();
+		}
+		if (x.getRawButton(11))
+			d = Robot.drive.gyro.getAngle() + 90;
+		if (x.getRawButton(4)) {
+			Gyro gyro = Robot.drive.gyro;
+			double dif = (d - gyro.getAngle()) / 90;
+			Robot.drive.drive(0, -1 * dif);
 		}
 	}
 
