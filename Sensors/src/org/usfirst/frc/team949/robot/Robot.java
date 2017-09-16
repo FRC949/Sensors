@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.security.cert.PKIXRevocationChecker;
+
 import org.usfirst.frc.team949.robot.commands.JoystickDrive;
 import org.usfirst.frc.team949.robot.commands.Rotate;
 import org.usfirst.frc.team949.robot.subsystems.DriveTrain;
@@ -115,6 +117,8 @@ public class Robot extends IterativeRobot {
 
 	Command j = new JoystickDrive();
 
+	double prev = 0;
+	double prevt = 0;
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -123,7 +127,13 @@ public class Robot extends IterativeRobot {
 
 		if (oi.getJoystick().getRawButton(1))
 			Robot.drive.resetEncoder();
+		
 		Scheduler.getInstance().run();
+		double curr = drive.leftEncoder.getDistance();
+		double time = System.currentTimeMillis();
+		System.out.println((curr-prev)/(time-prevt));
+		prevt = time;
+		prev=curr;
 		// System.out.println("Gyro: " + (int) (10 * drive.gyro.getAngle()) /
 		// 10.);
 	}
