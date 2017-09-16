@@ -2,8 +2,11 @@ package org.usfirst.frc.team949.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+import org.usfirst.frc.team949.robot.commands.Forward;
 import org.usfirst.frc.team949.robot.commands.JoystickDrive;
+import org.usfirst.frc.team949.robot.commands.Rotate;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -16,13 +19,20 @@ public class OI {
 	// You create one by telling it which joystick it's on and which button
 	// number it is.
 	Joystick stick = new Joystick(0);
-	// Button button = new JoystickButton(stick, buttonNumber);
+	Button[] button = new Button[13];
+	// JoystickButton(stick, 7);
 
-	public Joystick getJoystick()
-	{
+	public OI() {
+		for (int i = 1; i < 12; i++) {
+			button[i] = new JoystickButton(stick, i);
+			button[i].whenPressed(new Forward(i * 10));
+		}
+	}
+
+	public Joystick getJoystick() {
 		return stick;
 	}
-	
+
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
