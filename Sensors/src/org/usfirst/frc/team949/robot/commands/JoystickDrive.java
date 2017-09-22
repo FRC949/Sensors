@@ -12,7 +12,7 @@ import org.usfirst.frc.team949.robot.subsystems.DriveTrain;
  */
 public class JoystickDrive extends Command {
 
-	private final double kNerf = 1;
+	private final double kNerf = 0.3;
 	private final double kThreshold = 0.3;
 
 	public JoystickDrive() {
