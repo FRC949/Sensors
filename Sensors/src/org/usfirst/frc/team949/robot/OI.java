@@ -25,7 +25,7 @@ public class OI {
 	public OI() {
 		for (int i = 1; i < 12; i++) {
 			button[i] = new JoystickButton(stick, i);
-			button[i].whenPressed(new Forward(i * 10));
+//			button[i].whenPressed(new Forward(i * 10));
 		}
 	}
 
