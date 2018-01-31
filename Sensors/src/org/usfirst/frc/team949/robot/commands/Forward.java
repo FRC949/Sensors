@@ -15,7 +15,7 @@ public class Forward extends Command {
 	}
 
 	public Forward(double dis) {
-		controller = new PIDController(0.01, 0.0005, 0, (Robot.drive.leftEncoder), output -> this.output = output);
+		controller = new PIDController(0.01, 0.0005, 0, (Robot.DRIVE.leftEncoder), output -> this.output = output);
 		controller.setOutputRange(-1, 1);
 		controller.enable();
 		this.dis = dis;
@@ -24,13 +24,13 @@ public class Forward extends Command {
 	protected void initialize() {
 		// System.out.println("Something");
 
-		controller.setSetpoint(Robot.drive.leftEncoder.getDistance() + dis);
-		System.out.println("Init:" + (int) Robot.drive.leftEncoder.getDistance());
+		controller.setSetpoint(Robot.DRIVE.leftEncoder.getDistance() + dis);
+		System.out.println("Init:" + (int) Robot.DRIVE.leftEncoder.getDistance());
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drive.drive(output, 0);
+		Robot.DRIVE.drive(output, 0);
 	}
 
 	private boolean previous = false;

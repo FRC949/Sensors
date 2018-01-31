@@ -12,12 +12,12 @@ import org.usfirst.frc.team949.robot.subsystems.DriveTrain;
  */
 public class JoystickDrive extends Command {
 
-	private final double kNerf = 0.3;
-	private final double kThreshold = 0.3;
+	private final double kNerf = 1;
+	private final double kThreshold = 0;
 
 	public JoystickDrive() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.drive);
+		requires(Robot.DRIVE);
 	}
 
 	// Called just before this Command runs the first time
@@ -32,7 +32,8 @@ public class JoystickDrive extends Command {
 		double y = -x.getY(), z = -x.getZ();
 		y = Math.abs(y) < kThreshold ? 0 : y;
 		z = Math.abs(z) < kThreshold ? 0 : z;
-		Robot.drive.drive(kNerf * y, kNerf * z);
+		z=0;
+		Robot.DRIVE.drive(kNerf * (y - z), kNerf * (y + z));
 
 	}
 

@@ -22,7 +22,7 @@ public class Rotate extends Command {
 	}
 
 	public Rotate(double angle) {
-		controller = new PIDController(0.01, 0.0005, 0, Robot.drive.gyro, output -> this.output = output);
+//		controller = new PIDController(0.01, 0.0005, 0, Robot.DRIVE.gyro, output -> this.output = output);
 		controller.setInputRange(0, 360);
 		controller.setContinuous(true);
 		controller.setOutputRange(-1, 1);
@@ -34,13 +34,13 @@ public class Rotate extends Command {
 	protected void initialize() {
 		// System.out.println("Something");
 
-		controller.setSetpoint(Math.floorMod((int) (Robot.drive.gyro.getAngle() + angle), 360));
-		System.out.println("Init:" + Math.floorMod((int) (Robot.drive.gyro.getAngle() + angle), 360));
+//		controller.setSetpoint(Math.floorMod((int) (Robot.DRIVE.gyro.getAngle() + angle), 360));
+//		System.out.println("Init:" + Math.floorMod((int) (Robot.DRIVE.gyro.getAngle() + angle), 360));
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drive.drive(0, -output);
+		Robot.DRIVE.drive(0, -output);
 	}
 
 	private boolean previous = false;

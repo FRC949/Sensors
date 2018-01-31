@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team949.robot.commands.Forward;
 import org.usfirst.frc.team949.robot.commands.JoystickDrive;
+import org.usfirst.frc.team949.robot.commands.Motion;
 import org.usfirst.frc.team949.robot.commands.Rotate;
 
 /**
@@ -23,10 +24,12 @@ public class OI {
 	// JoystickButton(stick, 7);
 
 	public OI() {
-		for (int i = 1; i < 12; i++) {
+		for (int i = 1; i < 12; i++)
 			button[i] = new JoystickButton(stick, i);
-//			button[i].whenPressed(new Forward(i * 10));
-		}
+		button[1].whenPressed(new Motion());
+		// for (int i = 1; i < 12; i++) {
+		// button[i] = new JoystickButton(stick, i);
+		// button[i].whenPressed(new Forward(i * 10));
 	}
 
 	public Joystick getJoystick() {

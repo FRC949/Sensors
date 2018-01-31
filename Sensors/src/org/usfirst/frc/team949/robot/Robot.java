@@ -1,6 +1,11 @@
 
 package org.usfirst.frc.team949.robot;
 
+import edu.wpi.cscore.AxisCamera;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;
@@ -8,15 +13,21 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.security.cert.PKIXRevocationChecker;
 
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team949.robot.commands.JoystickDrive;
 import org.usfirst.frc.team949.robot.commands.Rotate;
 import org.usfirst.frc.team949.robot.subsystems.DriveTrain;
+
+import org.usfirst.frc.team949.robot.util.LEDFilter;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,8 +38,8 @@ import org.usfirst.frc.team949.robot.subsystems.DriveTrain;
  */
 public class Robot extends IterativeRobot {
 
-	public static final DriveTrain drive = new DriveTrain();
-	public static OI oi;
+	public static final DriveTrain DRIVE = new DriveTrain();
+	public static final OI oi = new OI();
 
 	Command autonomousCommand;
 	private SendableChooser<Command> chooser = new SendableChooser<>();
@@ -39,15 +50,34 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		oi = new OI();
+
+//		AxisCamera AXIS_CAMERA = CameraServer.getInstance().addAxisCamera("10.9.49.104");
+//		AXIS_CAMERA.setResolution(640, 480);
+
 		chooser.addDefault("Default Auto", new JoystickDrive());
 		// chooser.addObject("My Auto", );
-		CommandGroup test = new CommandGroup();
-		test.addSequential(new Rotate(30));
-//		test.addSequential(new WaitCommand(1));
-//		test.addSequential(new Rotate(-120));
-		chooser.addObject("Test", test);
+
 		SmartDashboard.putData("Auto mode", chooser);
+
+		new Thread(() -> {
+
+			CvSink cvSink = CameraServer.getInstance().getVideo();
+			CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+
+			Mat source = new Mat();
+			LEDFilter filter = new LEDFilter();
+
+			while (!Thread.interrupted()) {
+				cvSink.grabFrame(source);
+				if (source.empty())
+					continue;
+
+				filter.process(source);
+				Mat o = filter.hslThresholdOutput();
+				outputStream.putFrame(o);
+			}
+		});//.start();
+
 	}
 
 	/**
@@ -115,9 +145,6 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 	}
 
-
-//	double prev = 0;
-//	double prevt = 0;
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -125,19 +152,19 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 
 		if (oi.getJoystick().getRawButton(1))
-			Robot.drive.resetEncoder();
+			Robot.DRIVE.resetEncoder();
 		Scheduler.getInstance().run();
-//		double curr = drive.leftEncoder.getDistance();
-//		double time = System.currentTimeMillis();
-//		System.out.println((curr-prev)/(time-prevt));
-//		prevt = time;
-//		prev=curr;
+
+//		System.out.println((DRIVE.leftEncoder.getRate() + "   ").substring(0, 3) + " "
+//				+ (DRIVE.rightEncoder.getRate() + "   ").substring(0, 3) + " "
+//				+ (DRIVE.rightEncoder.getRate() - DRIVE.leftEncoder.getRate() + "   ").substring(0, 3));
+
 		// System.out.println("Gyro: " + (int) (10 * drive.gyro.getAngle()) /
 		// 10.);
 	}
 
 	/**
-	 * This function is called periodically during test mode
+	 * This function is called periodically dur ing test mode
 	 */
 	@Override
 	public void testPeriodic() {
