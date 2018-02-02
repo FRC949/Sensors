@@ -154,11 +154,16 @@ public class Robot extends IterativeRobot {
 		if (oi.getJoystick().getRawButton(1))
 			Robot.DRIVE.resetEncoder();
 		Scheduler.getInstance().run();
-
-//		System.out.println((DRIVE.leftEncoder.getRate() + "   ").substring(0, 3) + " "
-//				+ (DRIVE.rightEncoder.getRate() + "   ").substring(0, 3) + " "
-//				+ (DRIVE.rightEncoder.getRate() - DRIVE.leftEncoder.getRate() + "   ").substring(0, 3));
-
+		/*
+		System.out.println((DRIVE.leftEncoder.getRate() + "   ").substring(0, 3) + " "
+				+ (DRIVE.rightEncoder.getRate() + "   ").substring(0, 3) + " "
+				+ (DRIVE.rightEncoder.getRate() - DRIVE.leftEncoder.getRate() + "   ").substring(0, 3));
+*/
+		if(oi.getJoystick().getRawButton(2)) 
+		{
+			System.out.println(DRIVE.leftEncoder.getRate() + "   ");
+			
+		}
 		// System.out.println("Gyro: " + (int) (10 * drive.gyro.getAngle()) /
 		// 10.);
 	}

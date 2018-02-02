@@ -82,29 +82,29 @@ public class DriveTrain extends Subsystem {
 	int c = 0;
 
 	public void drive(double l, double r) {
-		// double v, a, j;
-
-
-
-		// a = 20 * (v - vp);
-		// j = 20 * (a - ap);
-		// vm = Math.max(v, vm);
-		// am = Math.max(a, am);
-		// jm = Math.max(j, jm);
-		// System.out.println("vm:" + vm);
-		// System.out.println("am:" + am);
-		// System.out.println("jm:" + jm);
-		// System.out.println(v);
-		// vp = v;
-		// ap = a;
-		// jp = j;
+		
+		/*double v, a, j;
+		v = leftEncoder.getRate();
+		a = 20 * (v - vp);
+		j = 20 * (a - ap);
+		vm = Math.max(v, vm);
+		am = Math.max(a, am);
+		jm = Math.max(j, jm);
+		System.out.println("vm:" + vm);
+		System.out.println("am:" + am);
+		System.out.println("jm:" + jm);
+		System.out.println(v);
+		vp = v;
+		ap = a;
+		jp = j;
+		*/
 		drive.tankDrive(l, r);
 	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-//		setDefaultCommand(new JoystickDrive());
+		setDefaultCommand(new JoystickDrive());
 	}
 
 	public void resetEncoder() {

@@ -29,12 +29,12 @@ public class JoystickDrive extends Command {
 	@Override
 	protected void execute() {
 		Joystick x = Robot.oi.getJoystick();
-		double y = -x.getY(), z = -x.getZ();
-		y = Math.abs(y) < kThreshold ? 0 : y;
-		z = Math.abs(z) < kThreshold ? 0 : z;
-		z=0;
-		Robot.DRIVE.drive(kNerf * (y - z), kNerf * (y + z));
-
+//		double y = -x.getY(), z = -x.getZ();
+//		y = Math.abs(y) < kThreshold ? 0 : y;
+//		z = Math.abs(z) < kThreshold ? 0 : z;
+//		z=0;
+//		Robot.DRIVE.drive(kNerf * (y - z), kNerf * (y + z));
+		Robot.DRIVE.drive(-x.getY(), -x.getY());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

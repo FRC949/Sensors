@@ -16,11 +16,11 @@ import jaci.pathfinder.modifiers.TankModifier;
 public class Motion extends Command {
 	EncoderFollower leftFollower;
 	EncoderFollower rightFollower;
-	double kp = 0.8;
+	double kp = 0.5;
 	double ki = 0;
-	double kd = 0;
-	double kv = 1. / 3;
-	double ka = 0;
+	double kd = 2;
+	double kv = 1. / 3.5;
+	double ka = 0.1;
 
 	public Motion() {
 		// Use requires() here to declare subsystem dependencies
@@ -38,11 +38,10 @@ public class Motion extends Command {
 		// Max Acceleration: 2.0 m/s/s
 		// Max Jerk: 60.0 m/s/s/s
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC,
-				Trajectory.Config.SAMPLES_HIGH, 0.05, 2, 1.5, 60.0);
+				Trajectory.Config.SAMPLES_HIGH, 0.05, 3.5, 5, 360.0);
 
 		// Create Waypoints
-		Waypoint[] points = new Waypoint[] { new Waypoint(-4, -1, Pathfinder.d2r(-45)),
-				new Waypoint(-2, -2, 0), new Waypoint(0, 0, 0) };
+		Waypoint[] points = new Waypoint[] { new Waypoint(-4, -1, Pathfinder.d2r(-45)), new Waypoint(-2, -2, 0), new Waypoint(0, 0, 0)};
 
 		// Generate trajectory with given waypoints and configuration
 		Trajectory trajectory = Pathfinder.generate(points, config);
@@ -76,7 +75,7 @@ public class Motion extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return rightFollower.isFinished();
 	}
 
 	// Called once after isFinished returns true
